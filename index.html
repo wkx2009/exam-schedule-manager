@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考场信息表</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>考场信息表</h1>
+        </header>
+        
+        <!-- 时间表部分 -->
+        <div class="clock-container">
+            <div class="clock" id="clock">--:--:--</div>
+            <div class="date" id="date">----年--月--日 星期-</div>
+        </div>
+        
+        <!-- 考试科目表格部分 -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>考试科目</th>
+                        <th>考试时间</th>
+                        <th>试卷信息</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody id="examTableBody">
+                    <tr>
+                        <td colspan="4" class="loading">正在加载考试数据...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 调整考试科目部分 -->
+        <div class="controls-container">
+            <h2>数据源配置</h2>
+            <div class="config-section">
+                <p>设置JSON数据文件的URL地址（支持本地路径或网络URL）</p>
+                <div class="config-input">
+                    <input type="text" id="jsonUrl" placeholder="输入JSON文件URL，例如: data.json" value="data.json">
+                    <button class="btn btn-success" id="loadDataBtn">加载数据</button>
+                    <button class="btn" id="showFormatBtn">查看JSON格式</button>
+                    <button class="btn btn-secondary" id="refreshBtn">刷新数据</button>
+                </div>
+                <div id="loadStatus"></div>
+            </div>
+            
+            <h2>考试信息管理</h2>
+            <div class="controls">
+                <button class="btn" id="addExamBtn">添加考试信息</button>
+                <button class="btn btn-secondary" id="exportBtn">导出为JSON</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p><a href="https://github.com/wkx2009" target="_blank" class="footer-link">Powered by wkx2009</a> | <a href="https://github.com/" class="footer-link">Github</a></p>
+        </footer>
+    </div>
+
+    <!-- JSON格式说明模态框 -->
+    <div class="modal" id="formatModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeFormatModal">&times;</span>
+            <h2>JSON数据格式说明</h2>
+            <p>请确保您的JSON文件使用以下格式：</p>
+            <div class="json-format">
+[
+  {
+    "subject": "数学",
+    "date": "2077-1-14",
+    "startTime": "09:00",
+    "endTime": "11:00",
+    "paperInfo": "该试卷共xx张xx页xx道大题"
+  }
+]
+            </div>
+            <p><strong>字段说明：</strong></p>
+            <ul>
+                <li><strong>subject</strong>: 考试科目名称</li>
+                <li><strong>date</strong>: 考试日期 (格式: YYYY-MM-DD)</li>
+                <li><strong>startTime</strong>: 开始时间 (格式: HH:MM)</li>
+                <li><strong>endTime</strong>: 结束时间 (格式: HH:MM)</li>
+                <li><strong>paperInfo</strong>: 试卷详细信息</li>
+            </ul>
+            <button class="btn" id="closeFormatBtn">关闭</button>
+        </div>
+    </div>
+
+    <!-- 添加考试信息模态框 -->
+    <div class="modal" id="addExamModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeAddExamModal">&times;</span>
+            <h2>添加考试信息</h2>
+            <form id="examForm">
+                <div style="margin-bottom: 15px;">
+                    <label for="subject">考试科目:</label>
+                    <input type="text" id="subject" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="examDate">考试日期:</label>
+                    <input type="date" id="examDate" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="startTime">开始时间:</label>
+                    <input type="time" id="startTime" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="endTime">结束时间:</label>
+                    <input type="time" id="endTime" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="paperInfo">试卷信息:</label>
+                    <textarea id="paperInfo" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; height: 100px;"></textarea>
+                </div>
+                <button type="submit" class="btn">添加考试</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
